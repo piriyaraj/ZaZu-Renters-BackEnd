@@ -9,7 +9,7 @@ var userSchema = new schema({
 		require: true,
 		unique: true,
 	},
-	mail: {
+	email: {
 		type: String,
 		require: true,
 		unique: true,
@@ -22,8 +22,12 @@ var userSchema = new schema({
 	profilepic: {
 		type: String,
 		// unique: true
+	},
+	vecihlesOwned :{
+	type: Number,
+	default: 0
 	}
-
+	
 });
 
 // console.log(typeof(userSchema))

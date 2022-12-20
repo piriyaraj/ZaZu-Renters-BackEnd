@@ -27,6 +27,7 @@ var functions = {
 							});
 						}
 					})
+					
 					//Check The mail in the dB
 					var newUser = User({
 						userName: userName,
@@ -50,7 +51,8 @@ var functions = {
 							});
 						}
 					});
-				} else if (!err) {
+				} else if (data) {
+					console.log(data)
 					//If the Mail already connected
 					return res.json({
 						success: false,
@@ -65,10 +67,12 @@ var functions = {
 			});
 	},
 	//Authendicate the user--->Login
-	authendicate: function (req, res,next) {
+	authendicate: function (req, res, next) {
+		const { email, password } = req.body;
+		
 		User.findOne(
 			{
-				email: req.body.email,
+				email: email,
 			},
 			function (err, user) {
 				if (err) throw err;
@@ -79,18 +83,17 @@ var functions = {
 					});
 				} else {
 					//Else Compare the password and check whether it's correct
-					user.comparePassword(req.body.password, function (err, isMatch) {
+					user.comparePassword(password, function (err, isMatch) {
 						if (isMatch && !err) {
 							//Creating Jwt token Expire in 2 hour
 							jwt.sign(
 								{ user },
 								config.secret,
-								{ expiresIn: '22h' },
+								{ expiresIn: '2h' },
 								(err, token) => {
 									if (err) {
 										return res.json({ success: false, msg: err });
 									} else {
-										
 										// var payload = jwt.decode(token, config.secret);
 										return res.json({ success: true, userid: user._id, token: token});
 										
@@ -98,9 +101,9 @@ var functions = {
 								}
 							);
 						} else {
-							return res.status(403).send({
+							return res.json({
 								success: false,
-								msg: 'Authendication Failed!',
+								msg: 'Wrong Password!!!',
 							});
 						}
 					});
