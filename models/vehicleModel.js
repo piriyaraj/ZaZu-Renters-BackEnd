@@ -2,22 +2,37 @@ var mongoose = require("mongoose");
 var schema = mongoose.Schema;
 
 let vehicleSchema = new schema({
-  vehiclename: {
+  vehicleImage: {
     type: String,
     require: true,
-    unique: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
+  model: {
+    type: String,
+    require: true,
+  },
+  capacity: {
+    type: String,
+    require: true,
+  },
+  millage: {
+    type: String,
+    require: true,
   },
   vehicleType: {
+    type: String,
+    require: true,
+  },
+  user: {
     type: String,
     require: true,
   },
   status: {
     type: Boolean,
     default: false,
-  },
-  userid: {
-    type: schema.Types.ObjectId,
-    ref: "users",
   },
   price: {
     type: Number,
